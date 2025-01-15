@@ -19,6 +19,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "BASE_URL", "\"https://zarqa-restapi-production.up.railway.app/api/\"")
     }
 
     buildTypes {
@@ -30,6 +31,11 @@ android {
             )
         }
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -66,6 +72,28 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.51.1")
     //noinspection UseTomlInstead
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+
+    // Coil untuk loading gambar
+    //noinspection UseTomlInstead
+    implementation("io.coil-kt:coil:2.5.0")
+    //noinspection UseTomlInstead
+    implementation("io.coil-kt.coil3:coil-compose:3.0.4")
+    //noinspection UseTomlInstead
+    implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.4")
+
+    // Paging 3
+    //noinspection UseTomlInstead
+    implementation("androidx.paging:paging-runtime-ktx:3.3.5")
+
+    //  Kebutuhan untuk menyimpan token yang aman
+    //noinspection UseTomlInstead
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
+
+    //  Delegate ViewModel
+    implementation (libs.androidx.navigation.fragment.ktx)
+    implementation (libs.androidx.navigation.ui.ktx)
+
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
