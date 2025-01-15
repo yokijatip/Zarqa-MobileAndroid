@@ -4,6 +4,7 @@ import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.gity.myzarqa.BuildConfig
 import com.gity.myzarqa.data.remote.api.ApiService
+import com.gity.myzarqa.data.remote.interceptor.AuthInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -25,7 +26,8 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
+        authInterceptor: AuthInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().apply {
@@ -35,6 +37,7 @@ object NetworkModule {
                     HttpLoggingInterceptor.Level.NONE
                 }
             })
+            .addInterceptor(authInterceptor)
             .addInterceptor(
                 ChuckerInterceptor.Builder(context)
                     .build()
