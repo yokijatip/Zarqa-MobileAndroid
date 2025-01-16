@@ -1,8 +1,6 @@
 package com.gity.myzarqa.presentation.auth
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,75 +9,77 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.gity.myzarqa.databinding.FragmentLoginBinding
+import com.gity.myzarqa.databinding.FragmentNewPasswordBinding
 import com.gity.myzarqa.helper.ResourceHelper
-import com.gity.myzarqa.presentation.common.base.MainActivity
 import com.gity.myzarqa.utils.CommonUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class LoginFragment : Fragment() {
+class NewPasswordFragment : Fragment() {
 
-    private var _binding: FragmentLoginBinding? = null
+    private var _binding: FragmentNewPasswordBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: AuthViewModel by viewModels()
+
+    private var tokenTemporary: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        // Inflate the layout for this fragment
+        _binding = FragmentNewPasswordBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setupObserver()
+        tokenTemporary = arguments?.getString("tokenTemporary")
         setupClickListener()
-
+        setupObserver()
     }
 
     private fun setupClickListener() {
-        binding.btnLogin.setOnClickListener {
-            val email = binding.edtEmail.text.toString()
+        binding.btnSubmit.setOnClickListener {
             val password = binding.edtPassword.text.toString()
-
-            if (validateInput(email, password)) {
-                viewModel.login(email, password)
+//            Get Temporary token from bundle
+            tokenTemporary?.let { token ->
+                if (validateInput(password)) {
+                    viewModel.newPassword(token, password)
+                }
+            } ?: run {
+                CommonUtils.showErrorSnackBar(binding.root, "Token temporary is null")
+                navigateToOTPFragment()
             }
         }
-        binding.tvSignUp.setOnClickListener {
-            navigateToRegister()
-        }
-        binding.tvForgotPassword.setOnClickListener {
-            navigateToCheckEmail()
+        binding.btnBack.setOnClickListener {
+            handleBackButton()
         }
     }
 
     private fun setupObserver() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.loginState.collect { result ->
+                viewModel.newPasswordState.collect { result ->
                     when (result) {
                         is ResourceHelper.Success -> {
                             CommonUtils.showLoading(false, binding.progressBar)
-                            // Navigate to Main Activity
-                            navigateToMain()
+                            // Navigate to Login Fragment
+                            navigateToLoginFragment()
                         }
+
                         is ResourceHelper.Error -> {
                             CommonUtils.showLoading(false, binding.progressBar)
-//                            CommonUtils.showErrorSnackBar(result.message.toString(), requireContext())
                             CommonUtils.showErrorSnackBar(binding.root, result.message.toString())
                         }
+
                         is ResourceHelper.Loading -> {
                             CommonUtils.showLoading(true, binding.progressBar)
                         }
 
                         null -> {
-                            // Initial state, tidak perlu melakukan apa-apa
                             CommonUtils.showLoading(false, binding.progressBar)
                         }
                     }
@@ -88,13 +88,16 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun validateInput(email: String, password: String): Boolean {
-        var isValid = true
+    private fun navigateToOTPFragment() {
+        (activity as? AuthActivity)?.replaceFragment(OTPFragment())
+    }
 
-        if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            binding.edtEmail.error = "Invalid email address"
-            isValid = false
-        }
+    private fun navigateToLoginFragment() {
+        (activity as? AuthActivity)?.replaceFragment(LoginFragment())
+    }
+
+    private fun validateInput(password: String): Boolean {
+        var isValid = true
 
         if (password.isEmpty() || password.length < 6) {
             binding.edtPassword.error = "Password must be at least 6 characters"
@@ -104,22 +107,13 @@ class LoginFragment : Fragment() {
         return isValid
     }
 
-    private fun navigateToMain() {
-        val intent = Intent(requireActivity(), MainActivity::class.java)
-        startActivity(intent)
-        requireActivity().finish()
-    }
-
-    private fun navigateToCheckEmail() {
-        (activity as? AuthActivity)?.replaceFragment(CheckEmailFragment())
-    }
-
-    private fun navigateToRegister() {
-        (activity as? AuthActivity)?.replaceFragment(RegisterFragment())
+    private fun handleBackButton() {
+        navigateToOTPFragment()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
 }

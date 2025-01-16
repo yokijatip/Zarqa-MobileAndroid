@@ -10,3 +10,16 @@ data class RegisterRequest(
     val email: String,
     val password: String
 )
+
+data class CheckEmailRequest(
+    val email: String
+)
+
+data class OTPRequest(
+    val otp: String
+)
+
+data class NewPasswordRequest(
+    val token: String,
+    val newPassword: String
+)

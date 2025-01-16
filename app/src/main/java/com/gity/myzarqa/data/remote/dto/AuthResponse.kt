@@ -31,3 +31,36 @@ data class UserData(
     @SerializedName("role")
     val role: String
 )
+
+data class AuthResponseCheckEmail(
+    @SerializedName("statusCode")
+    val statusCode: Int,
+    @SerializedName("status")
+    val status: String,
+    @SerializedName("data")
+    val data: AuthDataCheckEmail,
+    @SerializedName("message")
+    val message: String
+)
+
+data class AuthDataCheckEmail(
+    @SerializedName("email")
+    val email: String
+)
+
+data class AuthResponseVerifyOTP(
+    @SerializedName("statusCode")
+    val statusCode: Int,
+    @SerializedName("status")
+    val status: String,
+    @SerializedName("data")
+    val data: AuthDataVerifyOTP,
+    @SerializedName("message")
+    val message: String
+)
+
+data class AuthDataVerifyOTP(
+    @SerializedName("token")
+    val tokenTemporary: String
+)
+
