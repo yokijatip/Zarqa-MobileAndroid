@@ -8,9 +8,10 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/tv_settings_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Settings Fragment"
+        android:text="Logout"
         android:textSize="18sp"
         android:textColor="@color/black"
         android:fontFamily="@font/opensans_semi_bold"
