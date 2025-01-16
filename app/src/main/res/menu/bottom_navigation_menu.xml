@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/bottom_menu_home"
+        android:icon="@drawable/ic_home"
+        android:title="@string/bottom_navigation_menu_home"
+        app:cnb_iconColor="@color/white"
+        app:cnb_textColor="@color/white"
+        app:cnb_backgroundColor="@color/black" />
+
+    <item
+        android:id="@+id/bottom_menu_inventory"
+        android:icon="@drawable/ic_box"
+        android:title="@string/bottom_navigation_menu_inventory"
+        app:cnb_iconColor="@color/white"
+        app:cnb_textColor="@color/white"
+        app:cnb_backgroundColor="@color/black" />
+
+    <item
+        android:id="@+id/bottom_menu_history"
+        android:icon="@drawable/ic_clock_rotate_right"
+        android:title="@string/bottom_navigation_menu_history"
+        app:cnb_iconColor="@color/white"
+        app:cnb_textColor="@color/white"
+        app:cnb_backgroundColor="@color/black" />
+
+    <item
+        android:id="@+id/bottom_menu_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/bottom_navigation_menu_settings"
+        app:cnb_iconColor="@color/white"
+        app:cnb_textColor="@color/white"
+        app:cnb_backgroundColor="@color/black" />
+
+
+</menu>

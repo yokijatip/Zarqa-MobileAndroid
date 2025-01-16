@@ -93,6 +93,10 @@ dependencies {
     implementation (libs.androidx.navigation.fragment.ktx)
     implementation (libs.androidx.navigation.ui.ktx)
 
+    //  Chip Navigation Bar
+    //noinspection UseTomlInstead
+    implementation ("com.github.ismaeldivita:chip-navigation-bar:1.4.0")
+
 
 
     implementation(libs.androidx.core.ktx)

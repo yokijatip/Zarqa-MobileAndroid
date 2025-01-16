@@ -25,5 +25,11 @@
     <string name="otp">OTP</string>
     <string name="new_password">New Password</string>
 
+    <!-- Bottom Navigation Menu -->
+    <string name="bottom_navigation_menu_home">Home</string>
+    <string name="bottom_navigation_menu_inventory">Inventory</string>
+    <string name="bottom_navigation_menu_history">History</string>
+    <string name="bottom_navigation_menu_settings">Settings</string>
+
 
 </resources>
