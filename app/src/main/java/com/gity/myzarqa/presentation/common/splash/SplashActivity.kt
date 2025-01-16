@@ -36,8 +36,8 @@ class SplashActivity : AppCompatActivity() {
 
     private fun checkLoginStatus() {
         lifecycleScope.launch {
-            // Delay 3 detik untuk menampilkan splash screen
-            delay(3000)
+            // Delay 2 detik untuk menampilkan splash screen
+            delay(2000)
 
             if (viewModel.checkLoginStatus()) {
                 Timber.d("User is logged in, navigating to MainActivity")
